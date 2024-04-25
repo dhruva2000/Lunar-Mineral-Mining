@@ -1,11 +1,22 @@
 import cv2
 import numpy as np
+
+
 def interpolate(value, start, end):
     """Interpolate a value between a start and end point."""
     return start + (end - start) * value
 
+'''
+min_value should be 0k and max_value should be 400k for temp
+min_value should be 0 and max_value should be 45 for slope
+'''
 def color_to_value(color, min_value, max_value):
-    # Normalize the color and min/max colors to a 0-1 range
+
+    #slope_min = rgb(67,0,71)
+    #slope_max = rgb(255,255,255)
+    #temp_min = rgb(244,81,255)
+    #temp_max = rgb(255,255,255)
+
     norm_color = np.array(color) / 255.0
     norm_min_color = np.array([75,10,100]) / 255.0 #change this one
     norm_max_color = np.array([255,255,255]) / 255.0 #change this one
@@ -29,7 +40,7 @@ def color_to_value(color, min_value, max_value):
 
 
 
-image = cv2.imread('/Users/dhruvareddy/Downloads/LOLA_slope.png') #change this one
+image = cv2.imread('./slope.png') #change this to slope or heat
 
 # Assuming the image is already in the color space you're mapping from
 height, width, channels = image.shape
