@@ -56,7 +56,7 @@ image1 = cv2.imread('./slope.png') #change this to slope or heat
 image2 = cv2.imread('./heat.png') #change this to slope or heat
 image3 = cv2.imread('./tio2.png') #change this to slope or heat
 # Assuming the image is already in the color space you're mapping from
-height, width, channels = image.shape
+height, width, channels = image1.shape
 
 # Initialize an array for your scalar values
 slope_map = np.zeros((height, width))
@@ -73,7 +73,7 @@ for i in range(height):
         # Convert the color to a value
         slope = color_to_value(color, 0, 45, 'slope')
         heat = color_to_value(color2, 0, 400, 'heat')
-        tio2 = color_to_value(color3, 1, 11, 'tio2')
+        tio2 = color_to_value(color3, 0.1, 0.11, 'tio2')
 
 
         # Assign the value in your map
@@ -81,4 +81,24 @@ for i in range(height):
         heat_map[i, j] = heat
         tio2_map[i, j] = tio2
 
+def all_vals(x,y):
+    slope_val = slope_map[x,y]
+    heat_val = heat_map[x,y]
+    tio2_val = tio2_map[x,y]
+    he_val = 1
+
+    if tio2_val > 0.5:
+        he_val = 15
+    if tio2_val > 0.3 and tio2_val < 0.5:
+        he_val = 8
+    if tio2_val > 0.01 and tio2_val < 0.03:
+        he_val = 3
+    if tio2_val < 0.01:
+        he_val = 1
+    
+    return 5*4.68**2 * 1900 * tio2_val * (32000*40000) / he_val
 # 'value_map' now contains the scalar values for each pixel 
+
+var = input("Enter the value of x and y: ")
+x,y = var.split()
+all_vals(int(x),int(y))
